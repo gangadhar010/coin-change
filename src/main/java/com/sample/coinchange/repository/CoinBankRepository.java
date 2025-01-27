@@ -16,10 +16,15 @@ public class CoinBankRepository {
     @PostConstruct
     public void init() {
         coinCollection = new ConcurrentHashMap<>();
-        coinCollection.put(CoinType.QUARTER, 16);
+        //Tartget amount $5
+        /*coinCollection.put(CoinType.QUARTER, 16);
         coinCollection.put(CoinType.DIME, 5);
         coinCollection.put(CoinType.NICKEL, 8);
-        coinCollection.put(CoinType.PENNY, 10);
+        coinCollection.put(CoinType.PENNY, 10);*/
+        coinCollection.put(CoinType.QUARTER, 100);
+        coinCollection.put(CoinType.DIME, 100);
+        coinCollection.put(CoinType.NICKEL, 100);
+        coinCollection.put(CoinType.PENNY, 100);
     }
 
     public Map<CoinType, Integer> getCoinCollection() {

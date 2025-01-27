@@ -30,12 +30,17 @@ public class CoinChangeController {
         log.info("Acceptable bill status {}", accBill);
 
         if(null != accBill) {
-            Map<CoinType, Integer> result = coinChangeService.getCoinsForGivenBill(bill);
-            if (null != result) {
-                return  new ResponseEntity(result, HttpStatus.OK);
-            } else {
-                return  new ResponseEntity("No sufficient coins available in bank." +
-                        "Unable to provide exact change!", HttpStatus.NOT_ACCEPTABLE);
+            try {
+                Map<CoinType, Integer> result = coinChangeService.getCoinsForGivenBill(bill);
+                if (null != result) {
+                    return new ResponseEntity(result, HttpStatus.OK);
+                } else {
+                    return new ResponseEntity("No sufficient coins available in bank." +
+                            "Unable to provide exact change!", HttpStatus.NOT_ACCEPTABLE);
+                }
+            } catch (Exception e) {
+                return new ResponseEntity("Server Error! Unable to process request",
+                        HttpStatus.INTERNAL_SERVER_ERROR);
             }
 
         } else {

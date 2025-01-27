@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import java.util.*;
+import java.util.stream.Stream;
 
 @Component
 @Slf4j
@@ -43,6 +44,7 @@ public class OrderFulFillmentProcessor {
 
         log.debug("Prepared response in order fulfillment: {}", result);
         if(remainingBalance.intValue() > 0) {
+            rollbackCoinsToRepository(result);
             return null;
         }
         return result;
@@ -71,5 +73,14 @@ public class OrderFulFillmentProcessor {
         return remainingBalance;
     }
 
+    private void rollbackCoinsToRepository(Map<CoinType, Integer> result) {
+        log.debug("Rolling back coins to bank.");
+        log.debug("Before rollback coin bank status:" + coinBank.getCoinCollection());
+        result.entrySet().stream().forEach(entry -> {
+            coinBank.getCoinCollection()
+                    .computeIfPresent(entry.getKey(), (k, v) -> v+entry.getValue().intValue());
+        });
+        log.debug("After rollback coin bank status:" + coinBank.getCoinCollection());
+    }
 
 }
