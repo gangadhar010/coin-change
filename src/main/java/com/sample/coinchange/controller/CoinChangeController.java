@@ -1,5 +1,6 @@
 package com.sample.coinchange.controller;
 
+import com.sample.coinchange.dao.impl.CoinBankDaoImpl;
 import com.sample.coinchange.dto.AcceptableBills;
 import com.sample.coinchange.dto.CoinType;
 import com.sample.coinchange.service.CoinChangeService;
@@ -22,10 +23,14 @@ public class CoinChangeController {
     @Autowired
     private CoinChangeService coinChangeService;
 
+    @Autowired
+    private CoinBankDaoImpl coinBankDao;
+
     @GetMapping(value = "/api/change/{bill}",
                 produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity calculateChange(@PathVariable Integer bill) {
         log.info("Received request to calculate change for bill {}", bill);
+
         AcceptableBills accBill = AcceptableBills.findByBill(bill);
         log.info("Acceptable bill status {}", accBill);
 
@@ -48,5 +53,6 @@ public class CoinChangeController {
                     "Unable to process request. \n" +
                     "Acceptable bills are:" + Arrays.stream(AcceptableBills.values()).toList(), HttpStatus.NOT_ACCEPTABLE);
         }
+
     }
 }

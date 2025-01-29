@@ -10,7 +10,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 @Component
 @Getter
-public class CoinBankRepository {
+public class CoinBankInMemoryRepository {
     Map<CoinType, Integer> coinCollection;
 
     @PostConstruct
@@ -21,10 +21,10 @@ public class CoinBankRepository {
         coinCollection.put(CoinType.DIME, 5);
         coinCollection.put(CoinType.NICKEL, 8);
         coinCollection.put(CoinType.PENNY, 10);*/
-        coinCollection.put(CoinType.QUARTER, 100);
-        coinCollection.put(CoinType.DIME, 100);
-        coinCollection.put(CoinType.NICKEL, 100);
-        coinCollection.put(CoinType.PENNY, 100);
+        coinCollection.put(CoinType.QUARTER, 16);
+        coinCollection.put(CoinType.DIME, 5);
+        coinCollection.put(CoinType.NICKEL, 8);
+        coinCollection.put(CoinType.PENNY, 10);
     }
 
     public Map<CoinType, Integer> getCoinCollection() {
